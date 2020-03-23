@@ -76,15 +76,15 @@ filetype plugin indent on
 
 
 "---------------color----------"
-" au for highlight line and column
-" highlight CursorLine gui=underline ctermbg=6
-" highlight CursorColumn gui=underline ctermbg=6
-" highlight CursorLine gui=underline ctermbg=8
-" highlight CursorColumn gui=underline ctermbg=8
-" au WinLeave * set nocursorline nocursorcolumn
-" au WinEnter * set cursorline cursorcolumn
-" highlight CursorLine gui=underline ctermbg=2
-"set cursorline cursorcolumn
+"au for highlight line and column
+highlight CursorLine gui=underline ctermbg=6
+highlight CursorColumn gui=underline ctermbg=6
+highlight CursorLine gui=underline ctermbg=8
+highlight CursorColumn gui=underline ctermbg=8
+au WinLeave * set nocursorline nocursorcolumn
+au WinEnter * set cursorline cursorcolumn
+highlight CursorLine gui=underline ctermbg=2
+set cursorline cursorcolumn
 
 
 " dark 5, 7
