@@ -1,0 +1,244 @@
+" Configuration file for vim
+"execute pathogen#infect()
+so ~/.vim/plugins.vim
+
+set modelines=0		" CVE-2007-2438
+set nocompatible	" Use Vim defaults instead of 100% vi compatibility
+set backspace=2		" more powerful backspacing
+
+" Don't write backup file if vim is being called by "crontab -e"
+au BufWrite /private/tmp/crontab.* set nowritebackup
+" Don't write backup file if vim is being called by "chpass"
+au BufWrite /private/etc/pw.* set nowritebackup
+
+set encoding=utf8
+
+set ignorecase
+set smartcase
+set autowrite
+set autoindent
+set copyindent
+set number                             " Let's activate line numbers;
+set mouse=a                            " enable mouse  interaction
+set showmatch                          " show matching brackets
+set ruler
+set noerrorbells visualbell t_vb=
+
+"---------------Search----------"
+set hlsearch                           " color search
+set incsearch                          " incremental searching
+
+"---------------tab----------"
+" expand tab to space and specify indent
+set tabstop=4
+set expandtab
+set shiftwidth=4
+set smarttab
+
+"---------------syntax configs----------"
+syntax enable
+if has("syntax")
+	syntax on
+endif
+filetype plugin indent on
+
+"---------------color----------"
+if ! has("gui_running") 
+    set t_Co=256 
+    set background=light
+    
+    "colors peaksea 
+
+    let g:solarized_termcolors=256
+    colorscheme solarized
+endif 
+
+"---------------Visuals-----------------"
+if has("gui_macvim")
+"    colorscheme atom-dark
+    "set t_CO=256
+    "set guifont=Fira_Code:h17
+    set macligatures
+    set linespace=8                       " macvim-specific line-height
+    
+    set guioptions-=e                                  " we dont want GUi tabs
+    set guioptions-=l
+    set guioptions-=L
+    set guioptions-=r
+    set guioptions-=R
+    " fake a custome left padding
+    set foldcolumn=2
+    hi foldcolumn guibg=bg
+    hi vertsplit guifg=bg guibg=bg
+    hi LineNr guibg=bg
+	macmenu &File.Print key=<nop>
+endif
+
+
+let mapleader = "," "The default leader is \, but a comma is much better
+"-------------------Plugins----------------"
+"/
+"/CtrlP
+"/
+let g:ctrlp_custom_ignore= 'node_modules\DS_Store\|git'
+let g:ctrlp_match_window = 'top,order:ttb,min:1,max:30,results:30'
+nmap <c-e> :CtrlPMRUFiles<cr>
+nmap <leader>bt :CtrlPBufTag<cr>
+
+"/
+"/NERDTree
+"/
+:map <F1> :NERDTreeToggle<CR>
+:map <F2> :NERDTreeFind<CR>
+let NERDTreeHijackNetrw = 0
+
+"tagbar
+nmap <F8> :TagbarToggle<CR>
+let g:tagbar_ctags_bin="/opt/local/bin/ctags"
+
+"syntastic
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+"
+" Greplace.vim
+"
+set grepprg=ag                                                           " we want to use ag for the search
+let g:grep_cmd_opts="--line-numbers --noheading"
+
+"
+" PeepOpen
+"
+"nmap <leader>p :PeepOpen<cr>
+
+"
+" pdv
+"
+let g:pdv_template_dir = $HOME ."/.vim/bundle/pdv/templates_snip"
+nnoremap <leader>d :call pdv#DocumentWithSnip()<CR>
+
+" ultisnips
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+
+"
+" tabular
+"
+if exists(":Tabularize")
+    nmap <leader>a= :Tabularize /=<cr>
+    vmap <leader>a= :Tabularize /=<cr>
+endif
+" vim undo
+nnoremap <F5> :GundoToggle<CR>
+
+"-------------------external commands----------------"
+nmap <leader>c :!ctags -R --exclude=git --exclude=node_modules<CR>
+"---------------Split Management----------"
+set splitbelow
+set splitright
+nmap <C-H> <C-W><C-H>
+nmap <C-J> <C-W><C-J>
+nmap <C-K> <C-W><C-K>
+nmap <C-L> <C-W><C-L>
+
+
+"---------------Laravel-soso-Specific----------"
+so ~/.vim/laravel.vim
+"---------------Emmet - zen coding----------"
+let g:user_emmet_mode='a'
+" <c-y>n next edit point
+" <c-y>m merge line
+" <c-y>j split/join tag pair " delete join and expand
+" <c-y>a genearte a tag from url 
+" <c-y>A genearte a quote from url 
+
+" Powerline (Fancy thingy at bottom stuff)
+let g:Powerline_symbols = 'fancy'
+set laststatus=2   " Always show the statusline
+set showtabline=2
+set encoding=utf-8 " Necessary to show Unicode glyphs
+set statusline+=%f
+set noshowmode " Hide the default mode text (e.g. -- INSERT -- below the statusline)
+
+"---------------Auto-Commands----------"
+"automatically source the vimrc file on save
+augroup autosouring
+    autocmd!
+    autocmd BufWritePost .vimrc source %
+    autocmd BufWritePost plugins.vim source ~/.vimrc
+    "autocmd BufWritePost .zshrc !source %
+augroup END
+
+
+function! IPhpInsertUse()
+    call PhpInsertUse()
+    call feedkeys('a',  'n')
+endfunction
+autocmd FileType php inoremap <Leader>n <Esc>:call IPhpInsertUse()<CR>
+autocmd FileType php noremap <Leader>n :call PhpInsertUse()<CR>
+
+function! IPhpExpandClass()
+    call PhpExpandClass()
+    call feedkeys('a', 'n')
+endfunction
+autocmd FileType php inoremap <Leader>nf <Esc>:call IPhpExpandClass()<CR>
+autocmd FileType php noremap <Leader>nf :call PhpExpandClass()<CR>
+
+
+"---------------my Mappings----------"
+"Make it easy to edit the Vimrc file
+nmap <leader>ev :vs $MYVIMRC<CR>
+map  <leader>ss :source ~/.vimrc<CR>
+
+nmap <leader>es :tabedit ~/.vim/snippets/
+nmap <leader><space> :nohlsearch<CR>
+nmap <leader>bd :bd<cr>
+
+" xml editing 
+:nmap anno I<!--<Esc>A--><Esc>
+:nmap onna ^xxxx$xxx
+
+" shift + space: insert space under cursor in normal mode 
+"nmap <S-Space> i <Esc>
+
+" sort visual area by length
+vmap <Leader>sl ! awk '{ print length(), $0 \| "sort -n \| cut -d\\  -f2-"}'<cr>
+
+" keyboard mappings
+"key maps
+":inoremap <Tab> <Esc>
+
+map <leader>w :w!<cr>
+
+nnoremap j gj
+nnoremap k gk
+
+nmap vs :vsplit<cr>
+nmap sp :splits<cr>
+
+nmap <C-v> :vertical resize +5<cr>
+
+nmap <leader>todo :e todo.txt<cr>
+
+nmap :ed :edit %:p:h/
+
+
+"Load the current buffer in Chrome
+nmap ,c :!open -a Google\ Chrome %<cr>
+" macros
+let @a="yiw/}O$this->pA = $pA;?constructOprotected $pA;"
+
+"-------------------Notes and Tips----------------"
+" <leader>cc
+" <C-]> <C-6>
+" press zz to quickly center the line where the cursor located
+
+"vimawesome.com     " place to find awesome vim plugin
+"

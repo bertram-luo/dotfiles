@@ -1,0 +1,30 @@
+snippet met
+	public function ${1}(){
+		${2}
+	}
+snippet rg
+	Route::get('${1}', '${2}');
+snippet rp
+	Route::post('${1}', '${2}');
+snippet rpa
+	Route::post('${1}', function (${2}){
+		${3}
+	});
+snippet rga
+	Route::get('${1}', function (${2}){
+		${3}
+	});
+snippet $
+	$this->${1}
+snippet phpunit
+	class ${1}Test extends PHPUnit_Framework_TestCase{
+		/** @test */
+		function{
+		}
+	}
+snippet phpcase
+	class ${1}Test extends TestCase{
+		/** @test */
+		function{
+		}
+	}
