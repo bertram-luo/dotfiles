@@ -8,8 +8,7 @@ call vundle#begin()
 
 " let Vundle manage Vundle, required
 
-
-
+Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'fatih/vim-go'                                     " go plugin
 Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'VundleVim/Vundle.vim'                             " package manager
@@ -53,6 +52,12 @@ Plugin 'vim-airline/vim-airline-themes'
 " Plugin 'powerline/fonts'
 " Plugin 'powerline/powerline'
 Plugin 'mxw/vim-jsx'                                      " React jsx hightlight
+"------------ color scheme -------
+Plugin 'KeitaNakamura/neodark.vim'
+Plugin 'crusoexia/vim-monokai'
+Plugin 'acarapetis/vim-colors-github'
+Plugin 'rakr/vim-one'
+
 
 
 
