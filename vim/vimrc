@@ -265,6 +265,16 @@ endfunction
 autocmd FileType php inoremap <Leader>nf <Esc>:call IPhpExpandClass()<CR>
 autocmd FileType php noremap <Leader>nf :call PhpExpandClass()<CR>
 
+"-------------------begging go configs----------------"
+nmap <leader>gr :GoReferres<cr>
+nmap <leader>gi :GoImpl
+let g:go_highlight_types = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_function_calls = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_extra_types = 1
+"-------------------end of go configs----------------"
 
 "---------------my Mappings----------"
 "Make it easy to edit the Vimrc file
@@ -311,7 +321,6 @@ nmap <leader>todo :e todo.txt<cr>
 nmap <leader><leader>t :e ~/.todo.txt<cr>
 
 nmap :ed :edit %:p:h/
-
 
 "Load the current buffer in Chrome
 nmap ,c :!open -a Google\ Chrome %<cr>
