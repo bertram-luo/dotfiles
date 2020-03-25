@@ -4,7 +4,7 @@
 	templatedir = /data00/home/YOURNAME/.gittemplates
 [user]
 	name = YOURNAME 
-	email = YOURNAME@qutoutiao.net
+	email = YOURNAME@byted.net
 [filter "hawser"]
 	clean = git hawser clean %f
 	smudge = git hawser smudge %f

@@ -3,6 +3,32 @@
 ORI_DIR=$PWD
 BASE_DIR=""
 
+command_exists() {
+        command -v "$@" >/dev/null 2>&1
+}
+
+error() {
+        echo ${RED}"Error: $@"${RESET} >&2
+}
+
+setup_color() {
+	# Only use colors if connected to a terminal
+	if [ -t 1 ]; then
+		RED=$(printf '\033[31m')
+		GREEN=$(printf '\033[32m')
+		YELLOW=$(printf '\033[33m')
+		BLUE=$(printf '\033[34m')
+		BOLD=$(printf '\033[1m')
+		RESET=$(printf '\033[m')
+	else
+		RED=""
+		GREEN=""
+		YELLOW=""
+		BLUE=""
+		BOLD=""
+		RESET=""
+	fi
+}
 
 function red {
     #echo -e "\033[0;31m$1\033[0m"
@@ -13,14 +39,6 @@ function  green {
     printf "  \033[0;32m$1\033[0m\n"
 }
 
-function success {
-    green "$*"
-}
-
-function fail {
-    red $*
-}
-
 realpath() {
     [[ $1 = /* ]] && BASE_DIR=$(dirname $1) || BASE_DIR=$(dirname "$PWD/${1#./}")
     cd $BASE_DIR
@@ -29,89 +47,13 @@ realpath() {
     #cd $(dirname "$PWD/${1#./}")
 }
 
-config_vim() {
-    echo "===step $1: config vim"
-    link_dir $BASE_DIR"/vim" $HOME"/.vim"
-    link_file $BASE_DIR"/vim/vimrc" $HOME"/.vimrc"
-    [ -d $BASE_DIR"/vim/bundle/Vundle.vim" ] || (mkdir -p $BASE_DIR"/vim/bundle"; echo "not has"; cd $BASE_DIR"/vim/bundle"; git clone https://github.com/VundleVim/Vundle.vim.git)
+function success {
+    green "$*"
 }
 
-config_git(){
-    step=$1
-    link=$3
-    shift 1
-    echo "====step $step: config file $link"
-    link_file $@
+function fail {
+    red $*
 }
-
-
-config_aliases(){
-    echo "===step $1: config aliases"
-    link_file $BASE_DIR"/configs/aliases" $HOME"/.aliases"
-
-    if [ -f $HOME'/.bashrc' ]; then
-        xx=`grep '\[ -f ~/\.aliases \] && . ~/.aliases' $HOME'/.bashrc' | wc -l`
-        if [ $xx == 0 ]; then
-            echo " appending aliases PATH to .bashrc"
-            echo '[ -f ~/.aliases ] && . ~/.aliases' >> $HOME'/.bashrc'
-        #else
-            #red "grep res is $xx"
-        #    red "aliases already sourceed"
-        fi
-    fi
-}
-
-config_functions(){
-    echo "===step $1: config functions"
-    link_file $BASE_DIR"/configs/functions" $HOME"/.functions"
-
-    if [ -f $HOME'/.bashrc' ]; then
-        xx=`grep '\[ -f ~/\.functions \] && . ~/.functions' $HOME'/.bashrc' | wc -l`
-        if [ $xx == 0 ]; then
-            echo  "  appending functions PATH to .bashrc"
-            echo '[ -f ~/.functions ] && . ~/.functions' >> $HOME'/.bashrc'
-        #else
-            #red "grep res is $xx"
-        #    red "functions already sourceed"
-        fi
-    fi
-
-    if [ 0 -eq $? ]; then
-        green 'appending source .functions to .bashrc successed'
-    else
-        red 'appending source .functions to .bashrc failed'
-    fi
-    
-}
-
-config_scripts(){
-    echo "===step $1: config scipts"
-    DDIR=$BASE_DIR
-    link_dir $BASE_DIR"/scripts" $HOME"/.scripts"
-}
-
-config_tmux(){
-    echo "===step $1: config tmux"
-
-    link_dir $BASE_DIR"/tmux" $HOME"/.tmux"
-    link_file $BASE_DIR"/tmux/tmux.conf" $HOME"/.tmux.conf"
-    TMUX_DIR=$BASE_DIR"/tmux"
-    [ -d $TMUX_DIR"/plugins/tpm" ] || (mkdir -p $TMUX_DIR"/plugins"; echo "not has tpm"; cd $TMUX_DIR"/plugins"; git clone https://github.com/tmux-plugins/tpm)
-}
-
-config_todo(){
-    echo "===step $1: config todo"
-
-    link_dir $BASE_DIR"/todo" $HOME'/.todo'
-    link_file $BASE_DIR'/todo/todo.txt' $HOME"/.todo.txt"
-}
-
-config_dotfiles_dir() {
-    echo "===step $1: config dotfiles dir"
-    shift 1
-    link_dir $*
-}
-
 
 link_file() {
     source_file=$1
@@ -135,6 +77,7 @@ link_file() {
         red "linking $link failed"
     fi
 }
+
 link_dir() {
     source_dir=$1
     link=$2
@@ -158,28 +101,122 @@ link_dir() {
     fi
 }
 
+append_source(){
+    if [ $# -ne 1 ]; then 
+        error "no appending name"
+        exit 1
+    fi 
+    echo "  ${BLUE}append_source with arg $1 ${RESET}"
+    if [ -f $HOME'/.bashrc' ]; then
+        xx=`grep "\[ -f ~/\$1 \] && . ~/$1" $HOME/.bashrc | wc -l`
+        if [ $xx == 0 ]; then
+            echo " appending $1 PATH to .bashrc"
+            echo "[ -f ~/$1] && . ~/$1" >> $HOME'/.bashrc'
+        #else
+            #red "grep res is $xx"
+        #    red "aliases already sourceed"
+        fi
+    else
+        error "~/.bashrc not exit"
+        exit 1
+    fi
+    if [ 0 -eq $? ]; then
+        green 'appending source $1 to .bashrc successed'
+    else
+        red 'appending source $1 to .bashrc failed'
+    fi
+}
+setup_vim() {
+    echo "===step $1: setup vim"
+    link_dir $BASE_DIR"/vim" $HOME"/.vim"
+    link_file $BASE_DIR"/vim/vimrc" $HOME"/.vimrc"
+    [ -d $BASE_DIR"/vim/bundle/Vundle.vim" ] || (mkdir -p $BASE_DIR"/vim/bundle"; echo "not has vim package manager; installing bundle"; cd $BASE_DIR"/vim/bundle"; git clone https://github.com/VundleVim/Vundle.vim.git)
+}
+
+setup_git(){
+    step=$1
+    link=$3
+    shift 1
+    echo "====step $step: setup up git config linking $link"
+    link_file $@
+}
+
+setup_aliases(){
+    echo "===step $1: config aliases"
+    link_file $BASE_DIR"/configs/aliases" $HOME"/.aliases"
+    append_source ".aliases"
+    return
+}
+
+setup_functions(){
+    echo "===step $1: config functions"
+    link_file $BASE_DIR"/configs/functions" $HOME"/.functions"
+    append_source ".functions"
+}
+
+
+
+setup_scripts(){
+    echo "===step $1: config scipts"
+    DDIR=$BASE_DIR
+    link_dir $BASE_DIR"/scripts" $HOME"/.scripts"
+}
+
+setup_tmux(){
+    echo "===step $1: config tmux"
+
+    link_dir $BASE_DIR"/tmux" $HOME"/.tmux"
+    link_file $BASE_DIR"/tmux/tmux.conf" $HOME"/.tmux.conf"
+    TMUX_DIR=$BASE_DIR"/tmux"
+    [ -d $TMUX_DIR"/plugins/tpm" ] || (mkdir -p $TMUX_DIR"/plugins"; echo "not has tpm"; cd $TMUX_DIR"/plugins"; git clone https://github.com/tmux-plugins/tpm)
+}
+
+setup_todo(){
+    echo "===step $1: config todo"
+
+    link_dir $BASE_DIR"/todo" $HOME'/.todo'
+    link_file $BASE_DIR'/todo/todo.txt' $HOME"/.todo.txt"
+}
+
+setup_dotfiles_dir() {
+    echo "===step $1: config dotfiles dir"
+    shift 1
+    link_dir $*
+}
+
 main() {
+    setup_color
+
+    USERNAME=$(whoami)
+    echo "${YELLOW} hello $USERNAME${RESET}"
+
+    command_exists git || {
+        error "git is not installed"
+        exit 1
+    }
 
     echo "original dir $ORI_DIR"
     realpath "$0"
     echo "base dir is $BASE_DIR"
 
-    config_vim "1"
+    setup_vim "1"
 
-    config_git "2" $BASE_DIR"/configs/gitconfig" $HOME"/.gitconfig"
+    setup_git "2" $BASE_DIR"/configs/gitconfig" $HOME"/.gitconfig"
 
-    config_aliases "4"
+    setup_aliases "4"
 
-    config_functions "5"
+    setup_functions "5"
 
-    config_scripts "6"
+    setup_scripts "6"
 
-    config_todo "7"
+    setup_todo "7"
 
-    config_dotfiles_dir "8" $BASE_DIR $HOME"/.dotfiles"
+    setup_dotfiles_dir "8" $BASE_DIR $HOME"/.dotfiles"
 
-    config_tmux "9"
+    setup_tmux "9"
+
+    git ls-files -z | xargs -0 sed -i -e "s/envtest/${USERNAME}/"
 
 }
-main 
+main "$@"
 
