@@ -7,58 +7,64 @@ call vundle#begin()
 "call vundle#begin('~/some/path/here')
 
 " let Vundle manage Vundle, required
-
-Plugin 'Xuyuanp/nerdtree-git-plugin'
-Plugin 'fatih/vim-go'                                     " go plugin
-Plugin 'christoomey/vim-tmux-navigator'
+" ------------------inbox------------
+" ------------------common------------
 Plugin 'VundleVim/Vundle.vim'                             " package manager
-Plugin 'autowitch/hive.vim'
-Plugin 'posva/vim-vue'                                    " vue syntax support
-Plugin 'altercation/vim-colors-solarized'                 " colorscheme
-Plugin 'ctrlpvim/ctrlp.vim'                               " fuzzy file, buffer, mru, tag, etc finder
-Plugin 'tpope/vim-vinegar'                                " - quick file browse
+Plugin 'fatih/vim-go'                                     " go plugin, syntax and dev tools
+" ------------------edit and browse tools------------
 Plugin 'scrooloose/nerdtree'                              " sidebar file browser
 Plugin 'scrooloose/nerdcommenter'                         " nerd commenter TODO
-Plugin 'godlygeek/tabular'                                " make table
-Plugin 'majutsushi/tagbar'                                " sidebar tag
-Plugin 'ervandew/supertab'                                " tab completion
-Plugin 'terryma/vim-multiple-cursors'                     " multiple cursor
-" ------------------ web site related plugins------------
-Plugin 'pangloss/vim-javascript'
-Plugin 'gregsexton/matchtag'                              " match html tag
-Plugin 'othree/html5.vim'                                 " html5 tag colors
-Plugin 'mattn/emmet-vim'                                  " abbreviation expansion formal zen-coding
-Plugin 'StanAngelOff/php.vim'
-Plugin 'arnaud-lb/vim-php-namespace'                      " namesapce expansion
-"Plugin 'SirVer/ultisnips'                                 " code snips
-Plugin 'tobyS/vmustache'                                  " dep
-Plugin 'tobyS/pdv'                                        " php documentation
-
-Plugin 'tpope/vim-surround'                               " add change and delete surroundings
-Plugin 'tpope/vim-fugitive'                               " git plugin
-Plugin 'scrooloose/syntastic'                             " syntax check
-Plugin 'rking/ag.vim'                                     " vim plugin for the_silver_searcher
-Plugin 'skwp/greplace.vim'                                " batch grep and replace
-" Plugin 'msanders/snipmate.vim'                          " not maintained
-Plugin 'MarcWeber/vim-addon-mw-utils'                     " dep
-Plugin 'tomtom/tlib_vim'                                  " dep
-Plugin 'garbas/vim-snipmate'                              " fork of snipmate.vim
-Plugin 'file:///Users/contender/.vim/bundle/vim-peepopen' " dropdown menu for choosing file
-Plugin 'stephpy/vim-php-cs-fixer'
+Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'sjl/gundo.vim'                                    " change history window
+Plugin 'tpope/vim-fugitive'                               " git plugin like Gblame
+Plugin 'majutsushi/tagbar'                                " sidebar tag
+Plugin 'godlygeek/tabular'                                " make table TODO
+Plugin 'rking/ag.vim'                                     " vim plugin for the_silver_searcher TODO
+Plugin 'skwp/greplace.vim'                                " batch grep and replace TODO
+Plugin 'ervandew/supertab'                                " tab completion TODO
                                                           " Plugin 'Valloric/YouCompleteMe'
+" ------------------navigator------------
+Plugin 'christoomey/vim-tmux-navigator'
+Plugin 'tpope/vim-vinegar'                                " - quick file browse
+Plugin 'ctrlpvim/ctrlp.vim'                               " fuzzy file, buffer, mru, tag, etc finder
+" ------------------ markdown ------------------------
+Plugin 'iamcco/markdown-preview.vim'                      " markdown, need Vim with support of Python2 or 3
+Plugin 'iamcco/mathjax-support-for-mkdp'                     
+"------------ syntax, highlight, indent...etc-------
+Plugin 'pangloss/vim-javascript'
+Plugin 'othree/html5.vim'                                 " html5 tag colors
+Plugin 'StanAngelOff/php.vim'
+Plugin 'scrooloose/syntastic'                             " syntax check
+Plugin 'autowitch/hive.vim'
+Plugin 'posva/vim-vue'                                    " vue syntax support
+Plugin 'mxw/vim-jsx'                                      " React jsx hightlight
+"------------ color scheme -------
 Plugin 'vim-airline/vim-airline'                          " TODO bad visual effects why?
 Plugin 'vim-airline/vim-airline-themes'
 " Plugin 'powerline/fonts'
 " Plugin 'powerline/powerline'
-Plugin 'mxw/vim-jsx'                                      " React jsx hightlight
-"------------ color scheme -------
+Plugin 'altercation/vim-colors-solarized'                 " colorscheme
 Plugin 'KeitaNakamura/neodark.vim'
 Plugin 'crusoexia/vim-monokai'
 Plugin 'acarapetis/vim-colors-github'
 Plugin 'rakr/vim-one'
-
-
+" ------------------ web site related plugins------------
+Plugin 'gregsexton/matchtag'                              " match html tag
+Plugin 'mattn/emmet-vim'                                  " abbreviation expansion formal zen-coding
+Plugin 'arnaud-lb/vim-php-namespace'                      " namesapce expansion
+"Plugin 'SirVer/ultisnips'                                 " code snips
+Plugin 'tobyS/vmustache'                                  " dep:Mustache template system for VIMScript
+Plugin 'tobyS/pdv'                                        " php documentation
+Plugin 'tpope/vim-surround'                               " add change and delete surroundings
+" Plugin 'msanders/snipmate.vim'                          " not maintained
+Plugin 'stephpy/vim-php-cs-fixer'                         " php-coding-stand fixer
+" ------------------misc------------
+Plugin 'terryma/vim-multiple-cursors'                     " multiple cursor
+Plugin 'MarcWeber/vim-addon-mw-utils'                     " dep:
+Plugin 'tomtom/tlib_vim'                                  " dep: Some utility functions for VIM
+Plugin 'garbas/vim-snipmate'                              " fork of snipmate.vim
+Plugin 'file:///Users/contender/.vim/bundle/vim-peepopen' " dropdown menu for choosing file
+" ------------------end of plugin list------------
 
 
 " All of your Plugins must be added before the following line

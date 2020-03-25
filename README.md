@@ -2,11 +2,11 @@
  clone this repository to any place
 
 ## basic setup
-1. ./setup.sh will set vim (with package management tool vundle), tmux (with package management tool tpm) and some tool scripts
+./setup.sh will set vim (with package management tool vundle), tmux (with package management tool tpm) and some tool scripts
 ## install vim plugins
-2. open any file type `:PluginInstall` to install vim plugins (you can modify plugin list via plugin.vim
+open any file type `:PluginInstall` to install vim plugins (you can modify plugin list via plugin.vim
 ## install tmux plugins
-3. type tmux in shell to create a tmux session. Press `prefix` + `I` (capital i, as Install) to install plugins
+type tmux in shell to create a tmux session. Press `prefix` + `I` (capital i, as Install) to install plugins
 ## setting up go environment
 which requires vim 8.0.14
 
