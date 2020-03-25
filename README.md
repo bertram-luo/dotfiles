@@ -22,3 +22,9 @@ which requires vim 8.0.14
 # Note
 please tell me if you have any better configs or suggestions.
 
+
+#TODO
+1. vim quickfix support
+2. optimize scripts and snippets location
+3. optionally install ozh(oh my zsh)
+4. more detailed guide
