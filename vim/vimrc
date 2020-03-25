@@ -150,12 +150,9 @@ nmap <leader>bt :CtrlPBufTag<cr>
 "/
 "/NERDTree
 "/
-:map <F1> :NERDTreeToggle<CR>
-:map <F2> :NERDTreeFind<CR>
 let NERDTreeHijackNetrw = 0
 
 "tagbar
-nmap <F8> :TagbarToggle<CR>
 if has('mac')
     let g:tagbar_ctags_bin="/opt/local/bin/ctags"
 else
@@ -326,6 +323,15 @@ nmap :ed :edit %:p:h/
 nmap ,c :!open -a Google\ Chrome %<cr>
 " macros
 let @a="yiw/}O$this->pA = $pA;?constructOprotected $pA;"
+
+"-------------------<F*> map----------------"
+:map <F2> :NERDTreeToggle<CR>
+:map <F3> :NERDTreeFind<CR>
+nmap <F8> :TagbarToggle<CR>
+nmap <silent> <F9> <Plug>MarkdownPreview        " for normal mode
+imap <silent> <F9> <Plug>MarkdownPreview        " for insert mode
+nmap <silent> <F10> <Plug>StopMarkdownPreview    " for normal mode
+imap <silent> <F10> <Plug>StopMarkdownPreview    " for insert mode
 
 "-------------------Notes and Tips----------------"
 " <leader>cc quick comment
