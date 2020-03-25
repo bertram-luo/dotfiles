@@ -215,7 +215,7 @@ main() {
 
     setup_tmux "9"
 
-    git ls-files -z | xargs -0 sed -i -e "s/envtest/${USERNAME}/"
+    git ls-files | grep -v "setup.sh" | xargs  sed -i -e "s/YOURNAME/${USERNAME}/"
 
 }
 main "$@"
