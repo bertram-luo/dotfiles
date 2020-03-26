@@ -184,6 +184,15 @@ setup_dotfiles_dir() {
     link_dir $*
 }
 
+setup_oh_my_zsh() {
+    echo "===step $1: config oh my zsh"
+    curl -Lo install.sh https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
+    mkdir -p zsh
+    export ZSH=${BASE_DIR}"/oh-my-zsh"
+    sh install.sh
+    unset ZSH
+}
+
 main() {
     setup_color
 
