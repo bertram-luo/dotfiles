@@ -187,8 +187,8 @@ setup_dotfiles_dir() {
 setup_oh_my_zsh() {
     echo "===step $1: config oh my zsh"
     curl -Lo install.sh https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
-    mkdir -p zsh
-    export ZSH=${BASE_DIR}"/oh-my-zsh"
+    mkdir -p $BASE_DIR/zsh
+    export ZSH=${BASE_DIR}"/zsh/oh-my-zsh"
     sh install.sh
     unset ZSH
 }
@@ -208,6 +208,7 @@ main() {
     realpath "$0"
     echo "base dir is $BASE_DIR"
 
+
     setup_vim "1"
 
     setup_git "2" $BASE_DIR"/configs/gitconfig" $HOME"/.gitconfig"
@@ -225,6 +226,9 @@ main() {
     setup_tmux "9"
 
     git ls-files | grep -v "setup.sh" | xargs  sed -i -e "s/YOURNAME/${USERNAME}/"
+
+    setup_oh_my_zsh "10"
+    return
 
 }
 main "$@"
