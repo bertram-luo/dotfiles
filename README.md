@@ -19,6 +19,9 @@ which requires vim 8.0.14
 5. some scripts
 6. some todos
 
+# recommend reference
+1. [vim cheatsheet](https://vim.rtorr.com/lang/zh_cn)
+
 # Note
 please tell me if you have any better configs or suggestions.
 
