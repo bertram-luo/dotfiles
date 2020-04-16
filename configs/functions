@@ -1,0 +1,39 @@
+function realpath() {
+    [[ $1 = /* ]] && BASE_DIR=$(dirname $1) || BASE_DIR=$(dirname "$PWD/${1#./}")
+    cd $BASE_DIR
+    BASE_DIR=`pwd`
+    echo $BASE_DIR
+}
+
+function gitsed() {
+    git ls-files -z | xargs -0 sed -i -e "$1"
+} 
+
+function tmb(){
+    tmux a -d -t base || tmux new -s base
+}
+
+function statcpp() {
+    find ./ -name "*.cpp" -o -name "*.h" -o -name "*.hpp" -o -name "*.c" -o -name "*.cc" | xargs wc -l
+}
+
+function git_stat {
+    git log --author="$1" --pretty=tformat: --numstat | gawk '{ add += $1; subs += $2; loc += $1 - $2 } END { printf "added lines: %s removed lines: %s total lines: %s\n", add, subs, loc }' -
+}
+
+function git_stat_all {
+    git log --shortstat --pretty="%cE" | sed 's/\(.*\)@.*/\1/' | grep -v "^$" | awk 'BEGIN { line=""; } !/^ / { if (line=="" || !match(line, $0)) {line = $0 "," line }} /^ / { print line " # " $0; line=""}' | sort | sed -E 's/# //;s/ files? changed,//;s/([0-9]+) ([0-9]+ deletion)/\1 0 insertions\(+\), \2/;s/\(\+\)$/\(\+\), 0 deletions\(-\)/;s/insertions?\(\+\), //;s/ deletions?\(-\)//' | awk 'BEGIN {name=""; files=0; insertions=0; deletions=0;} {if ($1 != name && name != "") { print name ": " files " files changed, " insertions " insertions(+), " deletions " deletions(-), " insertions-deletions " net"; files=0; insertions=0; deletions=0; name=$1; } name=$1; files+=$2; insertions+=$3; deletions+=$4} END {print name ": " files " files changed, " insertions " insertions(+), " deletions " deletions(-), " insertions-deletions " net";}'
+    git ls-files -z | xargs -0n1 git blame -w | perl -n -e '/^.*?\((.*?)\s+[\d]{4}/; print $1,"\n"' | sort -f | uniq -c | sort -n
+}
+
+function git_stat_current {
+    git ls-files -z | xargs -0n1 git blame -w | perl -n -e '/^.*?\((.*?)\s+[\d]{4}/; print $1,"\n"' | sort -f | uniq -c | sort -n
+}
+
+function loop {
+    for i in $(seq 0 1 100); do echo "====round $i==="; $@; sleep 3; done;
+}
+
+function loopday {
+    for i in $(seq 0 1 28800); do echo "====round $i==="; $@; sleep 3; done;
+}

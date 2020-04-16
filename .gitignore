@@ -1,0 +1,10 @@
+vim/bundle
+tmux/plugins
+tmux/resurrect
+tmux_resurrect_*
+
+*.swo
+*.swp
+
+**\.netrwhist
+**\.DS_Store

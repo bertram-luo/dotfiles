@@ -1,0 +1,49 @@
+#alias progit='proxychains4 git'
+alias p7='/opt/local/bin/php70'
+
+alias vim="vim -O"
+alias gd="git diff"
+alias gdca="git diff --cached"
+alias gdw="git diff --word-diff"
+alias gsn="git status"
+alias gss="git status -s"
+alias gs="git status -sb"
+alias ga="git add"
+alias gc="git commit -m"
+alias gl='git lg1'
+alias glbr='git lg1b'
+alias glb='git lg1 master..HEAD'
+alias gcm='git checkout master'
+alias gpr="git pull --rebase"
+alias grbm='git rebase master'
+alias gls='git lg1s'
+
+alias gsta='git stash'
+alias gstp='git stash pop'
+
+alias ll='ls -lhG'
+alias lla='ls -lhAG'
+alias la='ls -A'
+alias l='ls -CF'
+
+alias cl='clear'
+
+alias opennew="vim \$(ls -lhAt| grep -v \"\\.sw*\" | head -n 2 | tail -n 1 | awk '{print \$9}')" 
+alias pserve="open http://localhost:8000 && python -m SimpleHTTPServer"
+alias ls~='ls -lhtd ~/my* ~/third-src'
+PATH=$PATH:"$HOME/.scripts"
+
+alias dump_device_info="cd ~/repos/pykepler/xigua/tools/; python dump_device_info_all.py"
+alias kill_pps="kill -9 \$(ps aux | grep \"pps -conf_file\"| grep $USER| grep -v grep| awk '{print \$2}')"
+alias rerun_pps="cp ~/repos/xigua_pps/output/pps ./; rm nohup.out; rm core; nohup ./pps -conf_file=conf/pps_service.conf &"
+
+function kill_pps_func {
+    my_pps=`ps aux | grep "pps -conf_file"| grep $USER| grep -v grep| awk '{print $2}'`
+    echo "killing $my_pps"
+    kill -9 $my_pps
+}
+
+
+alias connect_push='mysql --host=10.6.16.189 --user=pushdb_r --password=aqgR4eTD_4KsH7geNkOHHgiseaKQ8lAR --port=3351'
+alias pushdb='mysql -h 10.6.16.189 -P 3351 -u pushdb_r -paqgR4eTD_4KsH7geNkOHHgiseaKQ8lAR'
+

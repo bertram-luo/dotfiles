@@ -1,0 +1,20 @@
+#/bin/bash
+cd $HOME"/repos"
+BASE_PATH=$(pwd)
+echo $BASE_PATH
+
+function pull_all {
+if [ -z $1 ]; then
+    echo "no valid dir got. exiting";
+fi
+
+for repo in `find $BASE_PATH -name "\.git"`; do 
+    cd $repo"/../";
+    pwd
+    git pull --rebase
+done
+
+}
+
+pull_all $BASE_PATH
+
