@@ -6,5 +6,7 @@ tmux_resurrect_*
 *.swo
 *.swp
 
+*-e
+
 **\.netrwhist
 **\.DS_Store
